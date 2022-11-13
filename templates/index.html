@@ -36,13 +36,13 @@
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#collapseOne"
-                    aria-expanded="true"
+                    aria-expanded="false"
                     aria-controls="collapseOne"
             >
                 Departamentos
             </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse show"
+        <div id="collapseOne" class="accordion-collapse collapse"
              aria-labelledby="headingOne" data-bs-parent="#accordion"
         ">
         <div class="dept">
@@ -253,7 +253,7 @@
                         </div>
                         <div class="col">
                             <form method="POST">
-                                {{ dformDept.hidden_tag() }}
+                                {{ dformEmp.hidden_tag() }}
                                 <h5>Borrar empleado</h5>
                                 <div class="form-floating mb-3">
                                     {{ dformEmp.empno(class_="form-control") }}
@@ -319,6 +319,11 @@
                 <div class="row">
                     <p class="text-center">
                         David Eduardo Hernández García - <strong>338953</strong>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="text-center">
+                        Johann Lozano Enríquez - <strong>338834</strong>
                     </p>
                 </div>
             </div>

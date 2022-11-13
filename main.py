@@ -97,7 +97,6 @@ def main():
     uformEmp = UpdateEmp(prefix='uformEmp')
 
     if cformDept.validate_on_submit():
-        print("Create Dept")
         return createDepto(cformDept)
     if dformDept.validate_on_submit():
         return deleteDepto(dformDept)
