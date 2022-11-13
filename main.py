@@ -1,8 +1,8 @@
-from pymongo import MongoClient
-from flask import Flask, render_template, request, redirect, url_for
-
-from classes import *
 import os
+
+from flask import Flask, redirect, render_template, request, url_for
+from pymongo import MongoClient
+from classes import *
 
 app = Flask(__name__)
 
@@ -11,8 +11,8 @@ app.config['SECRET_KEY'] = SECRET_KEY
 client = MongoClient("mongodb://localhost:27017/Scott")
 db = client.Scott
 
-def createDepto(form):
 
+def createDepto(form):
     depto = {
         'deptno': int(form.deptno.data),
         'dname': form.dname.data,
@@ -74,31 +74,27 @@ def deleteEmp(form):
 
 
 def readAllEmp():
-    db.emp.find()
     data = []
-    for i in db.emp.find():
+    for i in db.emp.find({}, {"_id": 0}):
         data.append(i)
-    return db.emp.find()
+    return data
 
 
 def readAllDept():
-    db.dept.find()
     data = []
-    for i in db.emp.find():
+    for i in db.dept.find({}, {"_id": 0}):
         data.append(i)
-    return db.emp.find()
+    return data
 
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-    #print("Create Dept")
     cformDept = CreateDept(prefix='cformDept')
     dformDept = DeleteDept(prefix='dformDept')
     uformDept = UpdateDept(prefix='uformDept')
     cformEmp = CreateEmp(prefix='cformEmp')
     dformEmp = DeleteEmp(prefix='dformEmp')
     uformEmp = UpdateEmp(prefix='uformEmp')
-
 
     if cformDept.validate_on_submit():
         print("Create Dept")
@@ -108,17 +104,16 @@ def main():
     if uformDept.validate_on_submit():
         return updateDepto(uformDept)
     if cformEmp.validate_on_submit():
-        return createEmp( cformEmp)
+        return createEmp(cformEmp)
     if dformEmp.validate_on_submit():
-        return deleteEmp( dformEmp)
+        return deleteEmp(dformEmp)
     if uformEmp.validate_on_submit():
-        return updateEmp( uformEmp)
+        return updateEmp(uformEmp)
 
     return render_template('index.html', cformDept=cformDept, dformDept=dformDept, uformDept=uformDept,
                            cformEmp=cformEmp, dformEmp=dformEmp, uformEmp=uformEmp, dataEmp=readAllEmp(),
                            dataDept=readAllDept())
 
 
-# This is added so that many files can reuse the function get_database()
 if __name__ == "__main__":
     app.run(debug=True)
